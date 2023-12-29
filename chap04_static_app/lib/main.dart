@@ -27,10 +27,25 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       //앱 바
       appBar: AppBar(
-        title: Text('My App'),
+        title: const Text('My App'),
       ),
       body: Center(
-        child: Text('Hello Flutter~!'),
+        child: Column(children: [
+          Image.asset(
+            'image/clubr1.jpeg',
+            width: 200,
+            height: 200,
+            fit: BoxFit.contain,
+          ),
+          const Text(
+            'Clubr1',
+            style: TextStyle(
+              fontFamily: 'Rubik',
+              fontSize: 30,
+              color: Colors.blue,
+            ),
+          ),
+        ]),
       ),
       //FloatingActionButton
       floatingActionButton: FloatingActionButton(
