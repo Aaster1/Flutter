@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -22,24 +23,26 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //앱 바
+      // App Bar
       appBar: AppBar(
         title: Text('My App'),
       ),
-      body: Center(
+      // Body
+      body: const Center(
         child: Text('Hello Flutter~!'),
       ),
-      //FloatingActionButton
+      // floatingActionsButton
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('clicked!');
+          print('click!');
         },
-        child: const Icon(Icons.edit),
-      ), //body
-      //drawer
+        child: const Icon(Icons.person),
+      ),
+      // drawer (사이드바)
       drawer: Drawer(
         child: ListView(
           children: [
@@ -47,40 +50,46 @@ class MyHomePage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text('메뉴 목록'),
+              child: Text("메뉴 목록"),
             ),
             ListTile(
               title: const Text('메뉴 1'),
-              onTap: () {
-                print('click menu1!');
-              },
+              onTap: () { print('click menu1!'); },
             ),
             ListTile(
               title: const Text('메뉴 2'),
-              onTap: () {
-                print('click menu2!');
-              },
+              onTap: () { print('click menu2!'); },
             ),
           ],
         ),
       ),
+      // BottomNavitaionBar
       bottomNavigationBar: BottomNavigationBar(
+        // 아이템 2개 이상
         items: const [
-          BottomNavigationBarItem(
+           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_4), label: 'user'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'user',
+          ),
         ],
       ),
+
+      // BottomSheet
       bottomSheet: Container(
         height: 20,
         color: Colors.grey,
-        child: const Center(
-          child: Text('Bottom'),
-        ),
+        child: const Center(child: Text('Bottom')),
       ),
+
     );
   }
+
 }
