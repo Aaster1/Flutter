@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
     as picker;
 import 'package:calendar_date_picker2/calendar_date_picker2.dart' as picker2;
@@ -11,49 +12,50 @@ class JoinScreen extends StatefulWidget {
 }
 
 class _JoinScreenState extends State<JoinScreen> {
-  final TextEditingController _idController = TextEditingController(text:'');
+  final TextEditingController _idController = TextEditingController(text: '');
   final TextEditingController _pwController = TextEditingController(text: '');
-  final TextEditingController _pwCheckController = TextEditingController(text: '');
-  final TextEditingController _birthController = TextEditingController(text: DateTime.now().toString().split(' ')[0]);
-  
+  final TextEditingController _pwCheckController =
+      TextEditingController(text: '');
+  final TextEditingController _birthController =
+      TextEditingController(text: DateTime.now().toString().split(' ')[0]);
 
   //DateFormat사용법
   // DateFormat('yyyy/MM/dd').format(DateTime.now());
-  
+
   List<DateTime?> _singleDatePickerValueWithDefaultValue = [DateTime.now()];
   // state
   String _gender = '남자';
   String _dropdown = '주민등록증';
   final _formKey = GlobalKey<FormState>();
 
+  int count = 0;
 
- final config = picker2.CalendarDatePicker2Config(
-  //데이터 타입을 바꾸면 multi,range 등이 지원됩니다.
-  calendarType: picker2.CalendarDatePicker2Type.multi,
-  //선택일자색상
-  selectedDayHighlightColor:  Colors.amber[900],
-  //캘린더 요일 구분
-  weekdayLabels: ['일','월','화','수','목','금','토'],
-  weekdayLabelTextStyle: const TextStyle(
-    color:Colors.black87,
-    fontWeight: FontWeight.bold,
-  ),
-  //시작요일 0 ~ 6, 일 ~ 월
-  firstDayOfWeek: 0,
-  controlsHeight: 50,
-  controlsTextStyle: const TextStyle(
-    color:Colors.black,
-    fontSize:15,
-    fontWeight: FontWeight.bold,
-  ),
-  dayTextStyle: const TextStyle(
-    color:Colors.amber,
-    fontWeight: FontWeight.bold
-  ),
-  //재선택 시 해제 로직
-  selectableDayPredicate: (day) => 
-     !day.difference(DateTime.now().subtract(const Duration(days:3))).isNegative,
- );
+  final config = picker2.CalendarDatePicker2Config(
+    //데이터 타입을 바꾸면 multi,range 등이 지원됩니다.
+    calendarType: picker2.CalendarDatePicker2Type.multi,
+    //선택일자색상
+    selectedDayHighlightColor: Colors.amber[900],
+    //캘린더 요일 구분
+    weekdayLabels: ['일', '월', '화', '수', '목', '금', '토'],
+    weekdayLabelTextStyle: const TextStyle(
+      color: Colors.black87,
+      fontWeight: FontWeight.bold,
+    ),
+    //시작요일 0 ~ 6, 일 ~ 월
+    firstDayOfWeek: 0,
+    controlsHeight: 50,
+    controlsTextStyle: const TextStyle(
+      color: Colors.black,
+      fontSize: 15,
+      fontWeight: FontWeight.bold,
+    ),
+    dayTextStyle:
+        const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
+    //재선택 시 해제 로직
+    selectableDayPredicate: (day) => !day
+        .difference(DateTime.now().subtract(const Duration(days: 3)))
+        .isNegative,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class _JoinScreenState extends State<JoinScreen> {
               style: TextStyle(fontSize: 30.0),
             ),
             Form(
-              key:_formKey,
+              key: _formKey,
               child: Column(
                 children: [
                   // 아이디
@@ -74,7 +76,7 @@ class _JoinScreenState extends State<JoinScreen> {
                     autofocus: true,
                     controller: _idController,
                     decoration: const InputDecoration(labelText: '아이디'),
-                    onChanged: (v){
+                    onChanged: (v) {
                       _idController.text = v;
                     },
                     validator: (value) {
@@ -92,7 +94,7 @@ class _JoinScreenState extends State<JoinScreen> {
                     obscureText: true,
                     controller: _pwController,
                     decoration: const InputDecoration(labelText: '비밀번호'),
-                     onChanged: (v){
+                    onChanged: (v) {
                       _pwController.text = v;
                     },
                     validator: (value) {
@@ -110,7 +112,7 @@ class _JoinScreenState extends State<JoinScreen> {
                     obscureText: true,
                     controller: _pwCheckController,
                     decoration: const InputDecoration(labelText: '비밀번호 확인'),
-                     onChanged: (v){
+                    onChanged: (v) {
                       _pwCheckController.text = v;
                     },
                     validator: (value) {
@@ -222,6 +224,37 @@ class _JoinScreenState extends State<JoinScreen> {
                   const SizedBox(
                     height: 20.0,
                   ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              count++;
+                            });
+                          },
+                          child: const Text('+')),
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        decoration:
+                            InputDecoration(labelText: count.toString()),
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              if (count > 0) {
+                                count--;
+                              }
+                            });
+                          },
+                          child: const Text('-')),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -239,20 +272,22 @@ class _JoinScreenState extends State<JoinScreen> {
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(0.0)),
-                    ), child: const Text('회원가입'),
+                    ),
+                    child: const Text('회원가입'),
                   ),
-                  picker2.CalendarDatePicker2(config: config,
-                  value: _singleDatePickerValueWithDefaultValue,
-                  onValueChanged:(dates){
-                    setState(() {
-                      if(dates.length>2){
-                        _singleDatePickerValueWithDefaultValue=_singleDatePickerValueWithDefaultValue;
-                      }else{
-                      _singleDatePickerValueWithDefaultValue=dates;
-                      }
-                    });
-                  }
-                  ),
+                  picker2.CalendarDatePicker2(
+                      config: config,
+                      value: _singleDatePickerValueWithDefaultValue,
+                      onValueChanged: (dates) {
+                        setState(() {
+                          if (dates.length > 2) {
+                            _singleDatePickerValueWithDefaultValue =
+                                _singleDatePickerValueWithDefaultValue;
+                          } else {
+                            _singleDatePickerValueWithDefaultValue = dates;
+                          }
+                        });
+                      }),
                 ],
               ),
             )
