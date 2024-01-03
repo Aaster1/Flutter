@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:layout_widget/models/animal.dart';
+import 'package:layout_widget2/models/animal.dart';
 
 class ListViewScreen extends StatefulWidget {
   final List<Animal> list;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:layout_widget/models/animal.dart';
-import 'package:layout_widget/screens/listview_screen.dart';
+import 'package:layout_widget2/models/animal.dart';
+import 'package:layout_widget2/screens/gridview_screen.dart';
+import 'package:layout_widget2/screens/listview_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -76,7 +77,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: '리스트 뷰',
-      home: ListViewScreen(list: animalList),
+      home: 
+          // ListViewScreen(list: animalList),
+          GridViewScreen(list: animalList)
+
     );
   }
 }
