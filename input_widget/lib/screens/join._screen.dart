@@ -28,7 +28,10 @@ class _JoinScreenState extends State<JoinScreen> {
   String _dropdown = '주민등록증';
   final _formKey = GlobalKey<FormState>();
 
-  int count = 0;
+ final TextEditingController _countController = TextEditingController(text: '1');
+  int _count = 1;
+  final int _maxCount = 100;
+  final int _minCount = 1;
 
   final config = picker2.CalendarDatePicker2Config(
     //데이터 타입을 바꾸면 multi,range 등이 지원됩니다.
@@ -224,34 +227,52 @@ class _JoinScreenState extends State<JoinScreen> {
                   const SizedBox(
                     height: 20.0,
                   ),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              count++;
-                            });
-                          },
-                          child: const Text('+')),
+                  const Text('수량:'),
                       TextField(
+                        
+                        textAlign: TextAlign.center,
+                        controller: _countController,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                         ],
-                        decoration:
-                            InputDecoration(labelText: count.toString()),
+                        decoration: InputDecoration(
+                          prefixIcon: ElevatedButton(
+                                        onPressed: () {
+                                          if( _maxCount < _count ) {
+                                            return;
+                                          }
+                                          setState(() {
+                                            _count++;
+                                          });                  
+                                          _countController.text = _count.toString();
+                                        }, 
+                                        child: Text('+'),
+                                      ),
+                          suffixIcon: ElevatedButton(
+                                        onPressed: () {
+                                          if( _minCount >= _count ) {
+                                            return;
+                                          }
+                                          setState(() {
+                                            _count--;
+                                          });                  
+                                          _countController.text = _count.toString();
+                                        }, 
+                                        child: Text('-'),
+                                      ),
+                        ),
+                        onChanged: (value) {
+                          // int.parse("10") : String -> int로 변환
+                          // int.parse("") : 빈 문자열을 int로 변홤하면 예외 발생
+                          // int.tryparse() : 변환이 안되는 경우엔 null을 반환
+                          int newValue = int.tryParse(value) ?? _minCount;
+                          if(newValue ==-1) return;
+                          if( newValue >= _maxCount ) {newValue = _maxCount;}
+                          if( newValue < _minCount ) {newValue = _minCount;}
+                          _countController.text = newValue.toString();
+                        },
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              if (count > 0) {
-                                count--;
-                              }
-                            });
-                          },
-                          child: const Text('-')),
-                    ],
-                  ),
                   const SizedBox(
                     height: 20.0,
                   ),
