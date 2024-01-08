@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,20 +10,28 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(title: Text('홈 화면')),
       body: Center(
         child: Text(
-          '홈 화면',
-          style: TextStyle(fontSize: 30.0),
-        ),
+                  '홈 화면',
+                  style: TextStyle(fontSize: 30.0),
+              )
       ),
-      bottomNavigationBar: Container(
+      bottomSheet: Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            ElevatedButton(onPressed: () {
-              Navigator.pushReplacementNamed(context, '/user',arguments: 'user');
-            }, child: Text('마이페이지')),
-            ElevatedButton(onPressed: () {
-              Navigator.pushReplacementNamed(context, '/community', arguments: 'community');
-            }, child: Text('커뮤니티')),
+            ElevatedButton(
+              onPressed: () {
+                // 데이터 전달 : arguments 속성으로 전달
+                Navigator.pushNamed(context, "/user", arguments: 'user');
+              }, 
+              child: Text('마이 페이지')
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // 데이터 전달 : arguments 속성으로 전달
+                Navigator.pushNamed(context, "/community", arguments: 'community');
+              }, 
+              child: Text('커뮤니티')
+            ),
           ],
         ),
       ),

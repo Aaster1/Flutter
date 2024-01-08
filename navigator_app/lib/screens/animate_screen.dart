@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class AnimateScreen extends StatelessWidget {
@@ -5,19 +6,19 @@ class AnimateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(title: Text('애니메이트 페이지 ')),
-      body: Center(
-        child: Text('animateScreen '),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //이전페이지 돌아가기 (1 > 2)
-          Navigator.pop(context);
-        },
-        child: const Icon(Icons.arrow_back_ios_outlined),
-      ),
+        appBar: AppBar(title: const Text('애니메이션 페이지')),
+        body: const Center(
+          child: const Text('애니메이션 페이지'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // 페이지 돌아가기
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_forward),
+        ),
     );
   }
-  
 }

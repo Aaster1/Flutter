@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class UserScreen extends StatelessWidget {
@@ -5,26 +6,38 @@ class UserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? data = ModalRoute.of(context)?.settings.arguments as String;
+
+    // 데이터 가져오기
+    String? data = ModalRoute.of(context)?.settings.arguments as String?;
+
     return Scaffold(
-      appBar: AppBar(title: Text('유저 화면')),
+      appBar: AppBar(title: Text('마이 페이지')),
       body: Center(
         child: Text(
-          '유저 화면 ${data}',
-          style: TextStyle(fontSize: 50.0),
-        ),
-        
+                  '마이 페이지 : $data',
+                  style: TextStyle(fontSize: 30.0),
+              )
       ),
-      bottomNavigationBar: Container(
+      bottomSheet: Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            ElevatedButton(onPressed: () {
-              Navigator.pushReplacementNamed(context, '/home');
-            }, child: Text('홈으로')),
-            ElevatedButton(onPressed: () {
-              Navigator.pushReplacementNamed(context, '/community');
-            }, child: Text('커뮤니티')),
+            ElevatedButton(
+              onPressed: () {
+                // Navigator.pop(context);
+                // Navigator.pushNamed(context, "/user");
+                Navigator.pushReplacementNamed(context, "/user");
+              }, 
+              child: Text('마이 페이지')
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Navigator.pop(context);
+                // Navigator.pushNamed(context, "/community");
+                Navigator.pushReplacementNamed(context, "/community");
+              }, 
+              child: Text('커뮤니티')
+            ),
           ],
         ),
       ),

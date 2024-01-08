@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:input_widget/screens/join._screen.dart';
-import 'package:input_widget/screens/login._screen.dart';
+import 'package:input_widget/screens/join_screen.dart';
+import 'package:input_widget/screens/login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,39 +9,35 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController tabController;
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+
+  late TabController controller; 
 
   @override
   void initState() {
     super.initState();
-    //with SingleTickerProviderStateMixin을 지정하여 vsync의 값을 this로 사용가능하게 해줍니다.
-    tabController = TabController(length: 2, vsync: this);
+    // with SingleTickerProviderStateMixin 을 지정해서 this 사용
+    controller = TabController(length: 2, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('홈 화면')),
-      //탭에 해당하는 뷰 세팅
       body: TabBarView(
         children: [
           LoginScreen(),
           JoinScreen(),
         ],
-        controller: tabController,
-      ),
+        controller: controller,
+      )
+      ,
       bottomNavigationBar: TabBar(
-        tabs: [
-          Tab(
-            child: Text('로그인'),
-          ),
-          Tab(
-            child: Text('회원가입'),
-          ),
+        tabs: const [
+          Tab(child: Text('로그인'),),
+          Tab(child: Text('회원가입'),),
         ],
-        controller: tabController,
+        controller: controller,
       ),
     );
   }

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:shared_data_app/file_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  // SharedPrefences 공유 환경설정에 데이터 저장 예제
   runApp(const MyApp());
+  // 
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,14 +19,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: 
+          // const MyHomePage(title: 'Flutter Demo Home Page'),
+          const FileApp(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
   final String title;
 
   @override
@@ -33,11 +37,40 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    // 공유 환경설정에 저장해놓은 데이터 가져오기
+    getData();
+  }
+
   void _incrementCounter() {
     setState(() {
       _counter++;
+      // + 버튼 클릭 시, 변경된 counter 값 저장
+      _setData(_counter);
     });
   }
+
+  // SharedPrefeces 데이터 저장하는 함수
+  void _setData(int value) async {
+    var key = 'count';
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setInt(key, value);
+  }
+
+  // SharedPrefeces 데이터 가져오는 함수
+  void getData() async {
+    var key = 'count';
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    setState(() {
+      var value = pref.getInt(key);
+      _counter = value ?? 0;
+    });
+    
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ),
+      ), 
     );
   }
 }
